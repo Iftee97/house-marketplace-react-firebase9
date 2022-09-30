@@ -3,12 +3,36 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ReactComponent as ArrowRightIcon } from '../assets/svg/keyboardArrowRightIcon.svg'
 import visibilityIcon from '../assets/svg/visibilityIcon.svg'
 
+// firebase imports
+import { db, auth } from '../firebase.config.js'
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
+import { setDoc, doc, serverTimestamp } from 'firebase/firestore'
+
 const SignUp = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const navigate = useNavigate()
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      const user = userCredential.user
+      console.log("registered user: ", user)
+      await updateProfile(auth.currentUser, { displayName: name })
+      await setDoc(doc(db, 'users', user.uid), {
+        name,
+        email,
+        createdAt: serverTimestamp()
+      })
+      navigate('/') // redirect to home (explore) page
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <>
@@ -18,7 +42,7 @@ const SignUp = () => {
         </header>
 
         <main>
-          <form>
+          <form onSubmit={handleSubmit}>
             <input
               type="text"
               placeholder='Name'
