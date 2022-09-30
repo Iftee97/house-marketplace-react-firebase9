@@ -19,15 +19,15 @@ const SignUp = () => {
     e.preventDefault()
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password) // sign up user
       const user = userCredential.user
       console.log("registered user: ", user)
-      await updateProfile(auth.currentUser, { displayName: name })
+      await updateProfile(auth.currentUser, { displayName: name }) // update user profile with displayName
       await setDoc(doc(db, 'users', user.uid), {
         name,
         email,
         createdAt: serverTimestamp()
-      })
+      }) // add user to firestore db
       navigate('/') // redirect to home (explore) page
     } catch (error) {
       console.log(error)
