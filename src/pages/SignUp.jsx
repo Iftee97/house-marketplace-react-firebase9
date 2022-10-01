@@ -14,25 +14,29 @@ const SignUp = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password) // sign up user
       const user = userCredential.user
-      console.log("registered user: ", user)
+      // console.log("registered user: ", user)
       await updateProfile(auth.currentUser, { displayName: name }) // update user profile with displayName
       await setDoc(doc(db, 'users', user.uid), {
         name,
         email,
         createdAt: serverTimestamp()
       }) // add user to firestore db
+      setLoading(false)
       navigate('/') // redirect to home (explore) page
     } catch (error) {
       console.log(error)
       toast.error("could not register. something went wrong with registration")
+      setLoading(false)
     }
   }
 
@@ -40,7 +44,7 @@ const SignUp = () => {
     <>
       <div className="pageContainer">
         <header>
-          <p className="pageHeader">Welcome Back!</p>
+          <p className="pageHeader">Sign Up</p>
         </header>
 
         <main>
@@ -83,19 +87,26 @@ const SignUp = () => {
 
             <div className="signUpBar">
               <p className="signUpText">Sign Up</p>
-              <button className='signUpButton'>
-                <ArrowRightIcon
-                  fill='#fff'
-                  width='34px'
-                  height='34px'
-                />
-              </button>
+              {!loading && (
+                <button className='signUpButton'>
+                  <ArrowRightIcon
+                    fill='#fff'
+                    width='34px'
+                    height='34px'
+                  />
+                </button>
+              )}
             </div>
+            {loading && <p className='loading'>signing up...</p>}
           </form>
 
           {/* google OAuth component */}
 
-          <Link to='/sign-in' className='registerLlink'>Sign In instead</Link>
+          {!loading && (
+            <Link to='/sign-in' className='registerLlink'>
+              Sign In instead
+            </Link>
+          )}
         </main>
       </div>
     </>

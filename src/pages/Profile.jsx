@@ -5,44 +5,43 @@ import { toast } from 'react-toastify'
 // firebase imports
 import { db, auth } from '../firebase.config.js'
 import { signOut, updateProfile } from 'firebase/auth'
-import { updateDoc, doc } from 'firebase/firestore'
+// import { updateDoc, doc } from 'firebase/firestore'
 
 const Profile = () => {
-  const [name, setName] = useState(auth.currentUser.displayName)
-  const [email, setEmail] = useState(auth.currentUser.email)
-  const [changeDetails, setChangeDetails] = useState(false)
+  // const [name, setName] = useState(auth.currentUser.displayName)
+  // const [email, setEmail] = useState(auth.currentUser.email)
+  // const [changeDetails, setChangeDetails] = useState(false)
   const nagivate = useNavigate()
 
-  const onLogout = async () => {
+  const handleClick = async () => {
     await signOut(auth)
     nagivate('/sign-in') // redirect to sign in page
   }
 
-  const onSubmit = async () => {
-    try {
-      if (auth.currentUser.displayName !== name) {
-        // Update user profile with display name
-        await updateProfile(auth.currentUser, { displayName: name })
+  // const onSubmit = async () => {
+  //   try {
+  //     if (auth.currentUser.displayName !== name) {
+  //       // Update user profile with display name
+  //       await updateProfile(auth.currentUser, { displayName: name })
 
-        // Update in firestore
-        const userRef = doc(db, 'users', auth.currentUser.uid)
-        await updateDoc(userRef, { name })
-      }
-    } catch (error) {
-      console.log(error)
-      toast.error('Could not update profile details')
-    }
-  }
+  //       // Update in firestore
+  //       const userRef = doc(db, 'users', auth.currentUser.uid)
+  //       await updateDoc(userRef, { name })
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //     toast.error('Could not update profile details')
+  //   }
+  // }
 
   return (
     <div className='profile'>
-      {/* <h1>{user && user.displayName}</h1> */}
       <header className='profileHeader'>
         <p className='pageHeader'>My Profile</p>
         <button
           type='button'
           className='logOut'
-          onClick={onLogout}
+          onClick={handleClick}
         >
           Logout
         </button>
@@ -51,7 +50,7 @@ const Profile = () => {
       <main>
         <div className='profileDetailsHeader'>
           <p className='profileDetailsText'>Personal Details</p>
-          <p
+          {/* <p
             className='changePersonalDetails'
             onClick={() => {
               changeDetails && onSubmit()
@@ -59,15 +58,16 @@ const Profile = () => {
             }}
           >
             {changeDetails ? 'done' : 'change'}
-          </p>
+          </p> */}
         </div>
 
         <div className="profileCard">
-          <form>
+          {/* <form>
             <input
               type="text"
               className={!changeDetails ? 'profileName' : 'profileNameActive'}
               disabled={!changeDetails}
+              autoFocus={!changeDetails}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
@@ -78,7 +78,15 @@ const Profile = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
-          </form>
+          </form> */}
+          <span>
+            username: {" "}
+            <p className='profileName'>{auth.currentUser.displayName}</p>
+          </span> <br /> <br />
+          <span>
+            email: {" "}
+            <p className='profileEmail'>{auth.currentUser.email}</p>
+          </span>
         </div>
       </main>
     </div>

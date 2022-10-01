@@ -12,19 +12,23 @@ const SignIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password) // sign in user
       const user = userCredential.user
-      console.log("signed in user: ", user)
+      // console.log("signed in user: ", user)
+      setLoading(false)
       if (user) navigate('/') // redirect to home (explore) page
     } catch (error) {
       console.log(error)
       toast.error("could not login. incorrect user credentials")
+      setLoading(false)
     }
   }
 
@@ -32,7 +36,7 @@ const SignIn = () => {
     <>
       <div className="pageContainer">
         <header>
-          <p className="pageHeader">Welcome Back!</p>
+          <p className="pageHeader">Sign In</p>
         </header>
 
         <main>
@@ -67,19 +71,26 @@ const SignIn = () => {
 
             <div className="signInBar">
               <p className="signInText">Sign In</p>
-              <button className='signInButton'>
-                <ArrowRightIcon
-                  fill='#fff'
-                  width='34px'
-                  height='34px'
-                />
-              </button>
+              {!loading && (
+                <button className='signInButton'>
+                  <ArrowRightIcon
+                    fill='#fff'
+                    width='34px'
+                    height='34px'
+                  />
+                </button>
+              )}
             </div>
+            {loading && <p className='loading'>signing in...</p>}
           </form>
 
           {/* google OAuth component */}
 
-          <Link to='/sign-up' className='registerLlink'>Sign Up instead</Link>
+          {!loading && (
+            <Link to='/sign-up' className='registerLlink'>
+              Sign Up instead
+            </Link>
+          )}
         </main>
       </div>
     </>
