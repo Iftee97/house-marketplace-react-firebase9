@@ -94,3 +94,7 @@ const Profile = () => {
 }
 
 export default Profile
+
+// all the things commented on this page are only used for changing the name of a user if he/she should wish to
+// i do not wish to add that functionality.
+// i left it here for future reference on how to enable user to change their name

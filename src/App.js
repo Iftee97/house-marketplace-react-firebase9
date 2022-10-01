@@ -29,8 +29,14 @@ const App = () => {
             path='/profile'
             element={loggedIn ? <Profile /> : <Navigate to='/sign-in' />}
           />
-          <Route path='/sign-in' element={<SignIn />} />
-          <Route path='/sign-up' element={<SignUp />} />
+          <Route
+            path='/sign-in'
+            element={!loggedIn ? <SignIn /> : <Navigate to='/' />}
+          />
+          <Route
+            path='/sign-up'
+            element={!loggedIn ? <SignUp /> : <Navigate to='/' />}
+          />
           <Route path='/forgot-password' element={<ForgotPassword />} />
         </Routes>
         <Navbar />
