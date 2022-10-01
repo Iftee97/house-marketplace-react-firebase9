@@ -1,0 +1,53 @@
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import googleIcon from '../assets/svg/googleIcon.svg'
+
+// firebase imports
+import { db, auth } from '../firebase.config.js'
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
+import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore'
+
+const OAuth = ({ sign }) => {
+  const navigate = useNavigate()
+
+  const onGoogleClick = async () => {
+    try {
+      const provider = new GoogleAuthProvider()
+      const response = await signInWithPopup(auth, provider)
+      const user = response.user
+      console.log(`signed ${sign} user:`, user)
+
+      // Check for user
+      const docSnapshot = await getDoc(doc(db, 'users', user.uid))
+      // console.log('docSnapshot:', docSnapshot)
+      // console.log('docSnapshot.exists():', docSnapshot.exists())
+
+      // // if user doesn't exist, add user to firestore db (sign up user)
+      if (!docSnapshot.exists()) {
+        await setDoc(doc(db, 'users', user.uid), {
+          name: user.displayName,
+          email: user.email,
+          createdAt: serverTimestamp(),
+        })
+      }
+      navigate('/')
+    } catch (error) {
+      console.log(error)
+      toast.error('Could not authorize with Google')
+    }
+  }
+
+  return (
+    <div className='socialLogin'>
+      <p>Sign {sign} with </p>
+      <button className='socialIconDiv' onClick={onGoogleClick}>
+        <img className='socialIconImg' src={googleIcon} alt='google' />
+      </button>
+    </div>
+  )
+}
+
+export default OAuth
+
+// this single component will be used for both sign in and sign up

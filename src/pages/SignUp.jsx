@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ReactComponent as ArrowRightIcon } from '../assets/svg/keyboardArrowRightIcon.svg'
 import visibilityIcon from '../assets/svg/visibilityIcon.svg'
 import { toast } from 'react-toastify'
+import OAuth from '../components/OAuth'
 
 // firebase imports
 import { db, auth } from '../firebase.config.js'
@@ -100,7 +101,7 @@ const SignUp = () => {
             {loading && <p>signing up...</p>}
           </form>
 
-          {/* google OAuth component */}
+          <OAuth sign="up" />
 
           {!loading && (
             <Link to='/sign-in' className='registerLink'>
