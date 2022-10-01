@@ -81,13 +81,13 @@ const SignIn = () => {
                 </button>
               )}
             </div>
-            {loading && <p className='loading'>signing in...</p>}
+            {loading && <p>signing in...</p>}
           </form>
 
           {/* google OAuth component */}
 
           {!loading && (
-            <Link to='/sign-up' className='registerLlink'>
+            <Link to='/sign-up' className='registerLink'>
               Sign Up instead
             </Link>
           )}
