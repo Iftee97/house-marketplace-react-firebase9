@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ReactComponent as ArrowRightIcon } from '../assets/svg/keyboardArrowRightIcon.svg'
 import visibilityIcon from '../assets/svg/visibilityIcon.svg'
+import { toast } from 'react-toastify'
 
 // firebase imports
 import { auth } from '../firebase.config.js'
@@ -23,6 +24,7 @@ const SignIn = () => {
       if (user) navigate('/') // redirect to home (explore) page
     } catch (error) {
       console.log(error)
+      toast.error("could not login. incorrect user credentials")
     }
   }
 

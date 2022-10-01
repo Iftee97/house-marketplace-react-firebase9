@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ReactComponent as ArrowRightIcon } from '../assets/svg/keyboardArrowRightIcon.svg'
 import visibilityIcon from '../assets/svg/visibilityIcon.svg'
+import { toast } from 'react-toastify'
 
 // firebase imports
 import { db, auth } from '../firebase.config.js'
@@ -31,6 +32,7 @@ const SignUp = () => {
       navigate('/') // redirect to home (explore) page
     } catch (error) {
       console.log(error)
+      toast.error("could not register. something went wrong with registration")
     }
   }
 
