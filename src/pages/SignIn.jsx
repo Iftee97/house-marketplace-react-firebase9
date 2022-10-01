@@ -21,8 +21,8 @@ const SignIn = () => {
     setLoading(true)
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password) // sign in user
-      const user = userCredential.user
+      const response = await signInWithEmailAndPassword(auth, email, password) // sign in user
+      const user = response.user
       // console.log("signed in user: ", user)
       setLoading(false)
       if (user) navigate('/') // redirect to home (explore) page

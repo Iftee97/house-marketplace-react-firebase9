@@ -18,12 +18,10 @@ const OAuth = ({ sign }) => {
       const user = response.user
       console.log(`signed ${sign} user:`, user)
 
-      // Check for user
+      // // Check for user in firestore db
       const docSnapshot = await getDoc(doc(db, 'users', user.uid))
-      // console.log('docSnapshot:', docSnapshot)
-      // console.log('docSnapshot.exists():', docSnapshot.exists())
 
-      // // if user doesn't exist, add user to firestore db (sign up user)
+      // // if user doesn't exist, add user to firestore db (basically sign up the user)
       if (!docSnapshot.exists()) {
         await setDoc(doc(db, 'users', user.uid), {
           name: user.displayName,

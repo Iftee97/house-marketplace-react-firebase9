@@ -23,10 +23,10 @@ const SignUp = () => {
     setLoading(true)
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password) // sign up user
-      const user = userCredential.user
+      const response = await createUserWithEmailAndPassword(auth, email, password) // sign up user
+      const user = response.user
       // console.log("registered user: ", user)
-      await updateProfile(auth.currentUser, { displayName: name }) // update user profile with displayName
+      await updateProfile(user, { displayName: name }) // update user profile with displayName
       await setDoc(doc(db, 'users', user.uid), {
         name,
         email,
