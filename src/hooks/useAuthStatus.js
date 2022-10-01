@@ -8,10 +8,11 @@ export const useAuthStatus = () => {
   const [loggedIn, setLoggedIn] = useState(false)
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setLoggedIn(true)
       }
+      unsubscribe()
     })
   }, [])
 
