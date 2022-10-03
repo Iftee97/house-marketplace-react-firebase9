@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css'
 // pages and components
 import Navbar from './components/Navbar'
 import Explore from './pages/Explore'
+import Category from './pages/Category'
 import Offers from './pages/Offers'
 import Profile from './pages/Profile'
 import SignIn from './pages/SignIn'
@@ -29,6 +30,10 @@ const App = () => {
           <Route
             path='/offers'
             element={<Offers />}
+          />
+          <Route
+            path='/category/:categoryName'
+            element={<Category />}
           />
           <Route
             path='/profile'
