@@ -22,8 +22,14 @@ const App = () => {
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<Explore />} />
-          <Route path='/offers' element={<Offers />} />
+          <Route
+            path="/"
+            element={<Explore />}
+          />
+          <Route
+            path='/offers'
+            element={<Offers />}
+          />
           <Route
             path='/profile'
             element={loggedIn ? <Profile /> : <Navigate to='/sign-in' />}
@@ -36,7 +42,10 @@ const App = () => {
             path='/sign-up'
             element={!loggedIn ? <SignUp /> : <Navigate to='/' />}
           />
-          <Route path='/forgot-password' element={<ForgotPassword />} />
+          <Route
+            path='/forgot-password'
+            element={<ForgotPassword />}
+          />
         </Routes>
         <Navbar />
       </Router>
