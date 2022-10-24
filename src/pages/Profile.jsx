@@ -34,6 +34,8 @@ const Profile = () => {
   //   }
   // }
 
+  console.log("auth.currentUser.displayName:", auth.currentUser.displayName)
+
   return (
     <div className='profile'>
       <header className='profileHeader'>
