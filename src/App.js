@@ -12,12 +12,17 @@ import Profile from './pages/Profile'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import ForgotPassword from './pages/ForgotPassword'
+import CreateListing from './pages/CreateListing'
 
 // custom hook
 import { useAuthStatus } from './hooks/useAuthStatus'
 
 const App = () => {
-  const { loggedIn } = useAuthStatus()
+  const {
+    loggedIn,
+    user
+  } = useAuthStatus()
+  console.log('user:', user)
 
   return (
     <>
@@ -37,19 +42,24 @@ const App = () => {
           />
           <Route
             path='/profile'
-            element={loggedIn ? <Profile /> : <Navigate to='/sign-in' />}
+            element={user ? <Profile /> : <Navigate to='/sign-in' />}
           />
           <Route
             path='/sign-in'
-            element={!loggedIn ? <SignIn /> : <Navigate to='/' />}
+            element={!user ? <SignIn /> : <Navigate to='/' />}
           />
           <Route
             path='/sign-up'
-            element={!loggedIn ? <SignUp /> : <Navigate to='/' />}
+            element={!user ? <SignUp /> : <Navigate to='/' />}
           />
           <Route
             path='/forgot-password'
             element={<ForgotPassword />}
+          />
+          <Route
+            path='/create-listing'
+            element={<CreateListing />}
+          // element={user ? <CreateListing /> : <Navigate to='/sign-in' />}
           />
         </Routes>
         <Navbar />

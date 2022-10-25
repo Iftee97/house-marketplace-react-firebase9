@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 // import { toast } from 'react-toastify'
+import ListingItem from '../components/ListingItem'
+import arrowRight from '../assets/svg/keyboardArrowRightIcon.svg'
+import homeIcon from '../assets/svg/homeIcon.svg'
 
 // firebase imports
 import { db, auth } from '../firebase.config.js'
@@ -90,6 +93,12 @@ const Profile = () => {
             <p className='profileEmail'>{auth.currentUser.email}</p>
           </span>
         </div>
+
+        <Link to='/create-listing' className='createListing'>
+          <img src={homeIcon} alt="home" />
+          <p>Sell or rent your home</p>
+          <img src={arrowRight} alt="arrow right" />
+        </Link>
       </main>
     </div>
   )
