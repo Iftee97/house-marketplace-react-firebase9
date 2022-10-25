@@ -2,13 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { db } from '../firebase.config'
 import {
-  collection,
-  getDocs,
-  query,
-  where,
-  orderBy,
-  limit,
-  startAfter,
+  collection, getDocs, query, where, orderBy, limit, startAfter,
 } from 'firebase/firestore'
 import { toast } from 'react-toastify'
 import ListingItem from '../components/ListingItem'
@@ -27,7 +21,7 @@ const Category = () => {
 
         // create a query
         const q = query(
-          listingsRef,
+          listingsRef, // collection(db, 'listings')
           where('type', '==', params.categoryName),
           orderBy('timestamp', 'desc'),
           limit(10)
