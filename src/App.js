@@ -15,55 +15,52 @@ import ForgotPassword from './pages/ForgotPassword'
 import CreateListing from './pages/CreateListing'
 
 // custom hook
-import { useAuthStatus } from './hooks/useAuthStatus'
+import { useAuthContext } from './hooks/useAuthContext'
 
 const App = () => {
-  const {
-    loggedIn,
-    user
-  } = useAuthStatus()
-  console.log('user:', user)
+  const { authIsReady, user } = useAuthContext()
 
   return (
     <>
-      <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={<Explore />}
-          />
-          <Route
-            path='/offers'
-            element={<Offers />}
-          />
-          <Route
-            path='/category/:categoryName'
-            element={<Category />}
-          />
-          <Route
-            path='/profile'
-            element={user ? <Profile /> : <Navigate to='/sign-in' />}
-          />
-          <Route
-            path='/sign-in'
-            element={!user ? <SignIn /> : <Navigate to='/' />}
-          />
-          <Route
-            path='/sign-up'
-            element={!user ? <SignUp /> : <Navigate to='/' />}
-          />
-          <Route
-            path='/forgot-password'
-            element={<ForgotPassword />}
-          />
-          <Route
-            path='/create-listing'
-            element={<CreateListing />}
-          // element={user ? <CreateListing /> : <Navigate to='/sign-in' />}
-          />
-        </Routes>
-        <Navbar />
-      </Router>
+      {authIsReady && (
+        <Router>
+          <Routes>
+            <Route
+              path="/"
+              element={<Explore />}
+            />
+            <Route
+              path='/offers'
+              element={<Offers />}
+            />
+            <Route
+              path='/category/:categoryName'
+              element={<Category />}
+            />
+            <Route
+              path='/profile'
+              element={user ? <Profile /> : <Navigate to='/sign-in' />}
+            />
+            <Route
+              path='/create-listing'
+              element={user ? <CreateListing /> : <Navigate to='/sign-in' />}
+            />
+            <Route
+              path='/sign-in'
+              element={!user ? <SignIn /> : <Navigate to='/' />}
+            />
+            <Route
+              path='/sign-up'
+              element={!user ? <SignUp /> : <Navigate to='/' />}
+            />
+            <Route
+              path='/forgot-password'
+              element={<ForgotPassword />}
+            />
+          </Routes>
+          <Navbar />
+        </Router>
+      )}
       <ToastContainer />
     </>
   )

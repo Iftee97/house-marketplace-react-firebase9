@@ -9,12 +9,16 @@ import OAuth from '../components/OAuth'
 import { auth } from '../firebase.config.js'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 
+// custom hook
+import { useAuthContext } from '../hooks/useAuthContext'
+
 const SignIn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const { dispatch } = useAuthContext()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -23,7 +27,10 @@ const SignIn = () => {
     try {
       const response = await signInWithEmailAndPassword(auth, email, password) // sign in user
       const user = response.user
-      // console.log("signed in user: ", user)
+
+      // dispatch LOGIN action
+      dispatch({ type: "LOGIN", payload: user })
+
       setLoading(false)
       if (user) navigate('/') // redirect to home (explore) page
     } catch (error) {

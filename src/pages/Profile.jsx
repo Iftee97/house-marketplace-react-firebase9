@@ -10,14 +10,22 @@ import { db, auth } from '../firebase.config.js'
 import { signOut, updateProfile } from 'firebase/auth'
 // import { updateDoc, doc } from 'firebase/firestore'
 
+// custom hook
+import { useAuthContext } from '../hooks/useAuthContext'
+
 const Profile = () => {
   // const [name, setName] = useState(auth.currentUser.displayName)
   // const [email, setEmail] = useState(auth.currentUser.email)
   // const [changeDetails, setChangeDetails] = useState(false)
   const nagivate = useNavigate()
+  const { dispatch } = useAuthContext()
 
   const handleClick = async () => {
     await signOut(auth)
+
+    // dispatch LOGOUT action
+    dispatch({ type: "LOGOUT" })
+
     nagivate('/sign-in') // redirect to sign in page
   }
 

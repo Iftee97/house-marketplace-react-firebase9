@@ -10,6 +10,9 @@ import { db, auth } from '../firebase.config.js'
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth'
 import { setDoc, doc, serverTimestamp } from 'firebase/firestore'
 
+// custom hook
+import { useAuthContext } from '../hooks/useAuthContext'
+
 const SignUp = () => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -17,6 +20,7 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const { dispatch } = useAuthContext()
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -32,6 +36,10 @@ const SignUp = () => {
         email,
         createdAt: serverTimestamp()
       }) // add user to firestore db
+
+      // dispatch LOGIN action -- we can use the same action for login and signup
+      dispatch({ type: "LOGIN", payload: user })
+
       setLoading(false)
       navigate('/') // redirect to home (explore) page
     } catch (error) {

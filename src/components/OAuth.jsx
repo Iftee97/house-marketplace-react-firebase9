@@ -8,8 +8,12 @@ import { db, auth } from '../firebase.config.js'
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth"
 import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore'
 
+// custom hook
+import { useAuthContext } from '../hooks/useAuthContext'
+
 const OAuth = ({ sign }) => {
   const navigate = useNavigate()
+  const { dispatch } = useAuthContext()
 
   const onGoogleClick = async () => {
     try {
@@ -29,6 +33,10 @@ const OAuth = ({ sign }) => {
           createdAt: serverTimestamp(),
         })
       }
+
+      // dispatch LOGIN action -- we can use the same action for login and signup
+      dispatch({ type: 'LOGIN', payload: user })
+
       navigate('/')
     } catch (error) {
       console.log(error)
