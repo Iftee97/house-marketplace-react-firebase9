@@ -7,7 +7,7 @@ const Explore = () => {
   return (
     <div className='explore'>
       <header>
-        <p className='paheHeader'>Explore</p>
+        <p className='pageHeader'>Explore</p>
       </header>
 
       <main>
