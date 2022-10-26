@@ -10,7 +10,9 @@ import { onAuthStateChanged } from 'firebase/auth'
 import {
   ref, uploadBytesResumable, getDownloadURL,
 } from 'firebase/storage'
-import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import {
+  addDoc, collection, serverTimestamp
+} from 'firebase/firestore'
 
 const CreateListing = () => {
   const [geolocationEnabled, setGeolocationEnabled] = useState(false)
@@ -103,10 +105,21 @@ const CreateListing = () => {
       toast.error('Images not uploaded')
       return
     })
+    // console.log(imgUrls)
 
-    console.log(imgUrls)
+    const formDataCopy = {
+      ...formData,
+      imgUrls,
+      timestamp: serverTimestamp(),
+    }
 
+    delete formDataCopy.images
+    !formDataCopy.offer && delete formDataCopy.discountedPrice
+
+    const docRef = await addDoc(collection(db, 'listings'), formDataCopy)
     setLoading(false)
+    toast.success('Listing saved!')
+    navigate(`/category/${formDataCopy.type}/${docRef.id}`)
   }
 
   const onMutate = (e) => {
@@ -384,5 +397,3 @@ const CreateListing = () => {
 }
 
 export default CreateListing
-
-// google geocoding api key: key=API_KEY: AIzaSyBq-xfTIDTjkzm8E56sLJEK0HGEnmWMqcg
