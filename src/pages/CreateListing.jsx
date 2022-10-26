@@ -32,7 +32,21 @@ const CreateListing = () => {
     latitude: 0,
     longitude: 0,
   })
-  const { type, name, bedrooms, bathrooms, parking, furnished, address, offer, regularPrice, discountedPrice, images, latitude, longitude } = formData
+  const {
+    type,
+    name,
+    bedrooms,
+    bathrooms,
+    parking,
+    furnished,
+    address,
+    offer,
+    regularPrice,
+    discountedPrice,
+    images,
+    latitude,
+    longitude
+  } = formData // destructuring things from formData
   const navigate = useNavigate()
 
   useEffect(() => {
