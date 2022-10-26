@@ -42,7 +42,30 @@ const CreateListing = () => {
   }
 
   const onMutate = (e) => {
-    e.preventDefault()
+    let boolean = null
+
+    if (e.target.value === 'true') {
+      boolean = true
+    }
+    if (e.target.value === 'false') {
+      boolean = false
+    }
+
+    // files
+    if (e.target.files) {
+      setFormData((prevState) => ({
+        ...prevState,
+        images: e.target.files,
+      }))
+    }
+
+    // text / booleans / numbers
+    if (!e.target.files) {
+      setFormData((prevState) => ({
+        ...prevState,
+        [e.target.id]: boolean ?? e.target.value, // ?? is the nullish coalescing operator -- if boolean is null, set the value of [e.target.id]: e.target.value
+      }))
+    }
   }
 
   if (loading) {
@@ -184,7 +207,7 @@ const CreateListing = () => {
             required
           />
 
-          {!geolocationEnabled && (
+          {geolocationEnabled && (
             <div className='formLatLng flex'>
               <div>
                 <label className='formLabel'>Latitude</label>

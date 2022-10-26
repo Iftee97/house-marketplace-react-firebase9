@@ -826,6 +826,11 @@ button {
   margin-right: 1rem;
 }
 
+.formLatLng {
+  display: flex;
+  flex-direction: column;
+}
+
 .createListingButton {
   margin-top: 5rem;
 }
