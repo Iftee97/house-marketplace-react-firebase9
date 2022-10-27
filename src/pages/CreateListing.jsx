@@ -7,12 +7,8 @@ import { v4 as uuidv4 } from 'uuid'
 // firebase imports
 import { db, auth, storage } from '../firebase.config.js'
 import { onAuthStateChanged } from 'firebase/auth'
-import {
-  ref, uploadBytesResumable, getDownloadURL,
-} from 'firebase/storage'
-import {
-  addDoc, collection, serverTimestamp
-} from 'firebase/firestore'
+import { ref, uploadBytesResumable, getDownloadURL, } from 'firebase/storage'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 
 const CreateListing = () => {
   const [geolocationEnabled, setGeolocationEnabled] = useState(false)
@@ -47,6 +43,7 @@ const CreateListing = () => {
     latitude,
     longitude
   } = formData // destructuring things from formData
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -70,7 +67,7 @@ const CreateListing = () => {
     }
     if (images.length > 6) {
       setLoading(false)
-      toast.error('Max 6 images')
+      toast.error('Cannot upload more than 6 images')
       return
     }
 
@@ -112,11 +109,14 @@ const CreateListing = () => {
       })
     }
 
+    console.log("images:", images)
+    console.log("type of images:", typeof images)
+
     const imgUrls = await Promise.all(
       [...images].map((image) => storeImage(image))
     ).catch(() => {
       setLoading(false)
-      toast.error('Images not uploaded')
+      toast.error('Error: Images not uploaded')
       return
     })
     // console.log(imgUrls)
@@ -133,7 +133,7 @@ const CreateListing = () => {
     const docRef = await addDoc(collection(db, 'listings'), formDataCopy)
     setLoading(false)
     toast.success('Listing saved!')
-    navigate(`/category/${formDataCopy.type}/${docRef.id}`)
+    // navigate(`/category/${formDataCopy.type}/${docRef.id}`)
   }
 
   const onMutate = (e) => {
