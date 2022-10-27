@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react'
-// import { useParams } from 'react-router-dom'
 import { db } from '../firebase.config'
 import {
   collection, getDocs, query, where, orderBy, limit, startAfter,
 } from 'firebase/firestore'
 import { toast } from 'react-toastify'
 import ListingItem from '../components/ListingItem'
+import Spinner from '../components/Spinner'
 
 const Offers = () => {
   const [listings, setListings] = useState(null)
   const [loading, setLoading] = useState(true)
-
-  // const params = useParams()
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -21,7 +19,7 @@ const Offers = () => {
 
         // create a query
         const q = query(
-          listingsRef,
+          listingsRef, // collection(db, 'listings')
           where('offer', '==', true),
           orderBy('timestamp', 'desc'),
           limit(10)
@@ -54,7 +52,8 @@ const Offers = () => {
         <p className="pageHeader">Offers</p>
       </header>
       {loading ? (
-        <p>loading...</p>
+        // <p>loading...</p>
+        <Spinner />
       ) : listings && listings.length > 0 ? (
         <>
           <main>

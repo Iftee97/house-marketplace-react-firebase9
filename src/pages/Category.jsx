@@ -6,6 +6,7 @@ import {
 } from 'firebase/firestore'
 import { toast } from 'react-toastify'
 import ListingItem from '../components/ListingItem'
+import Spinner from '../components/Spinner'
 
 const Category = () => {
   const [listings, setListings] = useState(null)
@@ -56,7 +57,8 @@ const Category = () => {
         </p>
       </header>
       {loading ? (
-        <p>loading...</p>
+        // <p>loading...</p>
+        <Spinner />
       ) : listings && listings.length > 0 ? (
         <>
           <main>
