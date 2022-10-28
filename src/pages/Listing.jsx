@@ -7,6 +7,11 @@ import Spinner from '../components/Spinner'
 import { db, auth } from '../firebase.config'
 import { doc, getDoc } from 'firebase/firestore'
 
+// swiper imports
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+
 const Listing = () => {
   const [listing, setListing] = useState(null)
   const [loading, setLoading] = useState(null)
@@ -37,7 +42,21 @@ const Listing = () => {
     <main>
       {listing && (
         <>
-          {/* SLIDER COMPONENT GOES HERE */}
+          <Swiper slidesPerView={1} modules={[Navigation, Pagination, Scrollbar, A11y]}>
+            {listing.imgUrls.map((url, index) => (
+              <SwiperSlide key={index}>
+                <div
+                  style={{
+                    background: `url(${url}) center no-repeat`,
+                    // background: `url(${listing.imgUrls[index]}) center no-repeat`,
+                    backgroundSize: 'cover',
+                    height: '30vh',
+                  }}
+                  className='swiperSlideDiv'
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
 
           <div
             className='shareIconDiv'
@@ -49,7 +68,7 @@ const Listing = () => {
               }, 2000)
             }}
           >
-            <img src={shareIcon} alt='' />
+            <img src={shareIcon} alt='share icon' />
           </div>
           {shareLinkCopied && <p className='linkCopied'>Link Copied!</p>}
 
