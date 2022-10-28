@@ -14,6 +14,7 @@ import SignUp from './pages/SignUp'
 import ForgotPassword from './pages/ForgotPassword'
 import CreateListing from './pages/CreateListing'
 import Listing from './pages/Listing'
+import Contact from './pages/Contact'
 
 // custom hook
 import { useAuthContext } from './hooks/useAuthContext'
@@ -49,6 +50,10 @@ const App = () => {
             <Route
               path='/category/:categoryName/:listingId'
               element={<Listing />}
+            />
+            <Route
+              path='/contact/:landlordId'
+              element={<Contact />}
             />
             <Route
               path='/sign-in'
