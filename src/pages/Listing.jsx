@@ -91,6 +91,11 @@ const Listing = () => {
 
             {/*
               <p className='listingLocationTitle'>Location</p>
+
+              MAP GOES HERE -- WE'LL GET BACK TO THIS LATER 
+              WE NEED TO GEOCODE AN ENTERED ADDRESS TO GET LAT/LONG
+              WE WILL USE MAPBOX INSTEAD OF GOOGLE GEOCODING API FOR GEOCODING
+              THEN WE WILL USE LEAFLET/MAPBOX TO DISPLAY THE MAP
             */}
 
             {auth.currentUser?.uid !== listing.userRef && (
