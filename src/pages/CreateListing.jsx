@@ -54,6 +54,7 @@ const CreateListing = () => {
         navigate('/sign-in')
       }
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate])
 
   const onSubmit = async (e) => {
@@ -109,9 +110,6 @@ const CreateListing = () => {
       })
     }
 
-    console.log("images:", images)
-    console.log("type of images:", typeof images)
-
     const imgUrls = await Promise.all(
       [...images].map((image) => storeImage(image))
     ).catch(() => {
@@ -133,7 +131,7 @@ const CreateListing = () => {
     const docRef = await addDoc(collection(db, 'listings'), formDataCopy)
     setLoading(false)
     toast.success('Listing saved!')
-    // navigate(`/category/${formDataCopy.type}/${docRef.id}`)
+    navigate(`/category/${formDataCopy.type}/${docRef.id}`)
   }
 
   const onMutate = (e) => {
