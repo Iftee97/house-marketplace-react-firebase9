@@ -8,9 +8,9 @@ import { db, auth } from '../firebase.config'
 import { doc, getDoc } from 'firebase/firestore'
 
 // swiper imports
-import { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+import { Navigation, Pagination, Scrollbar, A11y } from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import 'swiper/css'
 
 const Listing = () => {
   const [listing, setListing] = useState(null)
