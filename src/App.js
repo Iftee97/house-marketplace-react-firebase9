@@ -13,6 +13,7 @@ import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import ForgotPassword from './pages/ForgotPassword'
 import CreateListing from './pages/CreateListing'
+import EditListing from './pages/EditListing'
 import Listing from './pages/Listing'
 import Contact from './pages/Contact'
 
@@ -46,6 +47,10 @@ const App = () => {
             <Route
               path='/create-listing'
               element={user ? <CreateListing /> : <Navigate to='/sign-in' />}
+            />
+            <Route
+              path='/edit-listing/:listingId'
+              element={user ? <EditListing /> : <Navigate to='/sign-in' />}
             />
             <Route
               path='/category/:categoryName/:listingId'
