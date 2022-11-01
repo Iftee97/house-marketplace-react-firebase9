@@ -44,7 +44,7 @@ const Slider = () => {
     fetchListings()
   }, [])
 
-  console.log(listings)
+  // console.log(listings)
 
   if (loading) {
     return <Spinner />
