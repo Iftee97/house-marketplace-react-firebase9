@@ -10,23 +10,24 @@ import Spinner from '../components/Spinner'
 const Offers = () => {
   const [listings, setListings] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [lastFetchedListing, setLastFetchedListing] = useState(null)
 
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        // get reference
-        const listingsRef = collection(db, 'listings')
+        const listingsRef = collection(db, 'listings') // get reference
 
-        // create a query
         const q = query(
           listingsRef, // collection(db, 'listings')
           where('offer', '==', true),
           orderBy('timestamp', 'desc'),
           limit(10)
-        )
+        ) // create a query
 
-        // execute query
-        const querySnap = await getDocs(q)
+        const querySnap = await getDocs(q) // execute query
+
+        const lastVisible = querySnap.docs[querySnap.docs.length - 1]
+        setLastFetchedListing(lastVisible)
 
         const listings = []
         querySnap.forEach((doc) => {
@@ -45,6 +46,40 @@ const Offers = () => {
     }
     fetchListings()
   }, [])
+
+  // pagination / load more
+  const onFetchMoreListings = async () => {
+    try {
+      const listingsRef = collection(db, 'listings') // get reference
+
+      const q = query(
+        listingsRef,
+        where('offer', '==', true),
+        orderBy('timestamp', 'desc'),
+        startAfter(lastFetchedListing),
+        limit(10)
+      ) // create a query
+
+      const querySnap = await getDocs(q) // execute query
+
+      const lastVisible = querySnap.docs[querySnap.docs.length - 1]
+      setLastFetchedListing(lastVisible)
+
+      const listings = []
+      querySnap.forEach((doc) => {
+        return listings.push({
+          id: doc.id,
+          data: doc.data(),
+        })
+      })
+
+      setListings((prevState) => [...prevState, ...listings])
+      setLoading(false)
+    } catch (error) {
+      console.log(error)
+      toast.error('could not fetch listings')
+    }
+  }
 
   return (
     <div className='category'>
@@ -67,6 +102,12 @@ const Offers = () => {
               ))}
             </ul>
           </main>
+
+          <br /><br />
+
+          {lastFetchedListing && (
+            <p className="loadMore" onClick={onFetchMoreListings}>Load More</p>
+          )}
         </>
       ) : <p>There are no current offers.</p>}
     </div>
