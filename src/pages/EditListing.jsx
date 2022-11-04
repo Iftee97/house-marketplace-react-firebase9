@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { db, auth, storage } from '../firebase.config.js'
 import { onAuthStateChanged } from 'firebase/auth'
 import { ref, uploadBytesResumable, getDownloadURL, } from 'firebase/storage'
-import { addDoc, collection, serverTimestamp, doc, updateDoc, getDoc } from 'firebase/firestore'
+import { serverTimestamp, doc, updateDoc, getDoc } from 'firebase/firestore'
 
 const EditListing = () => {
   const [geolocationEnabled, setGeolocationEnabled] = useState(false)
@@ -54,7 +54,7 @@ const EditListing = () => {
       toast.error('you cannot edit that listing')
       navigate('/')
     }
-  }, [])
+  }, [navigate])
 
   // fetch listing to populate and edit
   useEffect(() => {
