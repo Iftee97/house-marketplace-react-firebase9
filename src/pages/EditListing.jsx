@@ -190,6 +190,7 @@ const EditListing = () => {
       setFormData((prevState) => ({
         ...prevState,
         [e.target.id]: boolean ?? e.target.value, // ?? is the nullish coalescing operator -- if boolean is null, set the value of [e.target.id]: e.target.value
+        // [e.target.id]: boolean || e.target.value, // would probably do the same as above
       }))
     }
   }
